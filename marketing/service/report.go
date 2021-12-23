@@ -32,10 +32,10 @@ func GetReport() {
 	var accountId string
 	//--------从数据库获取数据结束
 	{
-		accountId = ""
+		accountId = "1078702789315797"
 		timeZone = -8
-		token = ``
-		name = ""
+		token = `EAACMS63HjT4BAAPSZAozQGt4uebvYxwrBizh6mauf3sNHYzbkPR25NbXeh0NOXNYBSmgA4e7yRxTJfkGd2HpDxEB3cKbWN4IsHE2pwapeCa29K1VQmMvQqVk7Ty9UsHLMdhOV8y9ZCf94mJy1fDy2848rDXBYmKqtvpaqZC3ZCScmNSxtpcqUmebHfxNIlZAn0hW7ZCEUTFAZDZD`
+		name = "西藏耀恒商贸有限公司04"
 	}
 
 	location := time.FixedZone(name, int(timeZone*3600))
@@ -84,10 +84,10 @@ func GetReport1() {
 	var accountId string
 	//--------从数据库获取数据结束
 	{
-		accountId = ""
+		accountId = "1078702789315797"
 		timeZone = -8
-		token = ``
-		name = ""
+		token = `EAACMS63HjT4BAAPSZAozQGt4uebvYxwrBizh6mauf3sNHYzbkPR25NbXeh0NOXNYBSmgA4e7yRxTJfkGd2HpDxEB3cKbWN4IsHE2pwapeCa29K1VQmMvQqVk7Ty9UsHLMdhOV8y9ZCf94mJy1fDy2848rDXBYmKqtvpaqZC3ZCScmNSxtpcqUmebHfxNIlZAn0hW7ZCEUTFAZDZD`
+		name = "西藏耀恒商贸有限公司04"
 	}
 
 	location := time.FixedZone(name, int(timeZone*3600))
@@ -253,6 +253,7 @@ func GetReportHost(accountId, token string) (host string, err error) {
 				if host != "" && !strings.Contains(host, "facebook.com") {
 					return
 				}
+				host = ""
 			}
 		}
 	}

@@ -29,3 +29,18 @@ type BusinessUser struct {
 	IpPermission      string   `json:"ip_permission"`
 	Business          Business `json:"business"`
 }
+type BusinessAdAccount struct {
+	Data   []AdCoount   `json:"data"`
+	Paging model.Paging `json:"paging"`
+}
+
+type BusinessAssignedAdAccountMeta struct {
+	Data   []AdCoount   `json:"data"`
+	Paging model.Paging `json:"paging"`
+}
+
+//BusinessAdAccountMeta ...
+type BusinessAdAccountMeta struct {
+	Data   []AdCoount   `json:"data"`
+	Paging model.Paging `json:"paging"`
+}

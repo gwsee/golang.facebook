@@ -3,8 +3,8 @@ package model
 import "git.zx-tech.net/pengfeng/facebook/model"
 
 type Insights struct {
-	Data   []Insight    `json:"data"`
-	Paging model.Paging `json:"paging"`
+	Data   []Insight `json:"data"`
+	Paging model.Paging    `json:"paging"`
 }
 
 // Insight 广告的分析

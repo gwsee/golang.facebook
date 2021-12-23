@@ -5,47 +5,47 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"git.zx-tech.net/pengfeng/facebook/model"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-
-	"git.zx-tech.net/pengfeng/facebook/model"
 )
 
 var client *http.Client
-var proxyUrl = `` //代理URL必须
-var fbHost = `https://graph.facebook.com/`
+var proxyUrl = ``
+var fbHost = ``
 
 var SaveActionLogAns = true
 var SaveActionDir = `/runtime`
 var SaveActionLog = true
 
 func init() {
-	proxy, _ := url.Parse(proxyUrl)
-	netTransport := &http.Transport{
-		DisableKeepAlives: false,
-		DialContext: (&net.Dialer{
-			Timeout:   30 * time.Second,
-			KeepAlive: 3 * time.Minute,
-			DualStack: true,
-		}).DialContext,
-		MaxIdleConns:          100,
-		IdleConnTimeout:       10 * time.Minute,
-		TLSHandshakeTimeout:   10 * time.Second,
-		ExpectContinueTimeout: 1 * time.Second,
-		Proxy:                 http.ProxyURL(proxy),
+	if client == nil {
+		proxy, _ := url.Parse(proxyUrl)
+		netTransport := &http.Transport{
+			DisableKeepAlives: false,
+			DialContext: (&net.Dialer{
+				Timeout:   30 * time.Second,
+				KeepAlive: 3 * time.Minute,
+				DualStack: true,
+			}).DialContext,
+			MaxIdleConns:          100,
+			IdleConnTimeout:       10 * time.Minute,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+			Proxy:                 http.ProxyURL(proxy),
+		}
+		client = &http.Client{
+			Transport: netTransport,
+		}
 	}
-	client = &http.Client{
-		Transport: netTransport,
-	}
-	fmt.Println("初始化了！")
 }
 
 func Action(method, urls, action string, postData map[string]string, headers map[string]string) (by []byte, err error) {
-	if !(strings.Contains(urls, "https:") || strings.Contains(urls, "http:")) {
+	if !(strings.Contains(urls,"https:") || strings.Contains(urls,"http:")) {
 		urls = fbHost + urls
 	}
 	var req *http.Request
@@ -61,13 +61,13 @@ func Action(method, urls, action string, postData map[string]string, headers map
 			}
 			req, err = http.NewRequest(method, urls, strings.NewReader(val.Encode()))
 		} else {
-			if postData != nil {
+			if postData!=nil{
 				val := url.Values{}
 				for k, v := range postData {
 					val.Add(k, v)
 				}
 				req, err = http.NewRequest(method, urls+"?"+val.Encode(), strings.NewReader(val.Encode()))
-			} else {
+			}else{
 				req, err = http.NewRequest(method, urls, nil)
 			}
 
@@ -107,9 +107,10 @@ func Action(method, urls, action string, postData map[string]string, headers map
 	return
 }
 
-func ActionAll(method, urls, action string, postData map[string]string, headers map[string]string) (by []byte, err error) {
-	by, err = Action(method, urls, action, postData, headers)
-	if err != nil {
+
+func ActionAll(method, urls, action string, postData map[string]string, headers map[string]string) (by []byte, err error)  {
+	by,err=Action(method, urls, action, postData,headers )
+	if err!=nil{
 		return
 	}
 	var res0 model.ListAll
@@ -145,26 +146,26 @@ func ActionAll(method, urls, action string, postData map[string]string, headers 
 	}
 	res0.Data = list
 	res0.Paging.Next = next
-	by, err = json.Marshal(res0)
+	by,err=json.Marshal(res0)
 	return
 }
 func handErr(by []byte) (err error) {
 	type er struct {
-		Message   string `json:"message"`
-		Type      string `json:"type"`
-		Code      int    `json:"code"`
+		Message string `json:"message"`
+		Type string `json:"type"`
+		Code int `json:"code"`
 		FbtraceId string `json:"fbtrace_id"`
 	}
 	type res struct {
 		Error er `json:"error"`
 	}
-	if strings.Contains(string(by), "error") {
+	if strings.Contains(string(by), "error")  {
 		var obj res
-		err = json.Unmarshal(by, &obj)
+		err = json.Unmarshal(by,&obj)
 		if err != nil {
 			return
 		}
-		err = fmt.Errorf("response fail: %v", obj.Error.Message)
+		err =fmt.Errorf("response fail: %v", obj.Error.Message)
 	}
 	return
 }

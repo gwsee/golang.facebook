@@ -3,8 +3,8 @@ package model
 import "git.zx-tech.net/pengfeng/facebook/model"
 
 type AdSets struct {
-	Data   []AdSet      `json:"data"`
-	Paging model.Paging `json:"paging"`
+	Data   []AdSet `json:"data"`
+	Paging model.Paging  `json:"paging"`
 }
 
 //AdSet 广告集
